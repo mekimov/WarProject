@@ -9,6 +9,15 @@ public class PathCreator : MonoBehaviour
     private LineRenderer lineRenderer;
     private List<Vector3> points = new List<Vector3>();
     public Action<IEnumerable<Vector3>> OnNewPathCreated = delegate { }; // вот тут ниче не понял
+
+    private bool IsPointNearSelectedCharacter(Vector3 point)
+    {
+        var selectedCharacter = BattleController.Instance.ActivePlayer.SelectedCharacter;
+        if (selectedCharacter == null)
+            return false;
+        var dist = Vector3.Distance(selectedCharacter.transform.position, point);
+        return dist < 5;
+    }
     private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
@@ -32,12 +41,15 @@ public class PathCreator : MonoBehaviour
             RaycastHit hitInfo;
             if (Physics.Raycast(ray, out hitInfo))
             {
-                if (DistanceToLastPoint(hitInfo.point) > 0.8f)
+                if (DistanceToLastPoint(hitInfo.point) > 1f)
                 {
-                    points.Add(hitInfo.point);
-
-                    lineRenderer.positionCount = points.Count;
-                    lineRenderer.SetPositions(points.ToArray());
+                    if (points.Count > 0 || IsPointNearSelectedCharacter(hitInfo.point))
+                    {
+                        points.Add(hitInfo.point);
+                        lineRenderer.positionCount = points.Count;
+                        lineRenderer.SetPositions(points.ToArray());
+                    }
+                    
 
                 }
             }
