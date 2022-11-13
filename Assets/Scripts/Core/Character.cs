@@ -34,8 +34,7 @@ public class Character : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
-        animator.SetTrigger("Attack");
-        
+            animator.SetTrigger("Attack");
     }
     public bool TurnFinished()
     {

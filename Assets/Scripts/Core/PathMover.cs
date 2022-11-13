@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,7 +10,14 @@ public class PathMover : MonoBehaviour
     [SerializeField] private Animator animator;
     private Queue<Vector3> pathPoints = new Queue<Vector3>();
     Vector3 prevPosition;
+    
     public bool waitForCommand;
+
+    public void LogPointsInfo()
+    {
+        Debug.LogError(pathPoints.Count);
+    }
+    
 
     public void OnDrawGizmos()
     {
@@ -31,20 +39,27 @@ public class PathMover : MonoBehaviour
 
     }
 
+    public void ResetPath()
+    {
+        pathPoints.Clear();
+    }
+
     private void SetPoints(IEnumerable<Vector3> points)
     {
+        if (pathPoints.Count > 0 && points.Count() == 0)
+            return;
+        Debug.Log("SetPoints" + points);
         pathPoints = new Queue<Vector3>(points);
-        if (pathPoints.Count > 0)
-        waitForCommand = false;
+        //if (pathPoints.Count > 0)
+            //waitForCommand = false;
     }
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
         UpdatePathing();
         animator.SetFloat("MoveSpeed", (transform.position - prevPosition).magnitude / Time.deltaTime);
         prevPosition = transform.position;
-
     }
 
     private void UpdatePathing()
@@ -55,7 +70,10 @@ public class PathMover : MonoBehaviour
 
     private bool ShouldSetDestination()
     {
+        Debug.Log("pathPoints.Count = " + pathPoints.Count);
         if (pathPoints.Count == 0)
+            return false;
+        if (waitForCommand)
             return false;
         if (navmeshagent.hasPath == false || navmeshagent.remainingDistance < 1f)
             return true;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,10 @@ public class BattleController : MonoBehaviour
     [SerializeField] Player blue;
     private Player activePlayer;
     public Player ActivePlayer => activePlayer;
+
+    public Action<Player> onTurnBegin;
     // Start is called before the first frame update
+    
     public void SwitchActivePlayer()
     {
         if (activePlayer == red)
@@ -17,6 +21,9 @@ public class BattleController : MonoBehaviour
             activePlayer.OnEndTurn();
             activePlayer = blue;
             activePlayer.OnBeginTurn();
+            
+            onTurnBegin?.Invoke(activePlayer);
+            
             Debug.Log("Active player - blue");
         }
         else
@@ -24,14 +31,22 @@ public class BattleController : MonoBehaviour
             activePlayer.OnEndTurn();
             activePlayer = red;
             activePlayer.OnBeginTurn();
+            
+            onTurnBegin?.Invoke(activePlayer);
+            
             Debug.Log("Active player - red");
         }
     }
-    void Start()
+    void Awake()
     {
         Instance = this;
         activePlayer = red;
         red.OnBeginTurn();
+    }
+
+    private void Start()
+    {
+        onTurnBegin?.Invoke(activePlayer);
     }
 
     // Update is called once per frame

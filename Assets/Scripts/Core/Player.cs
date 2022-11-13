@@ -6,6 +6,10 @@ public class Player : MonoBehaviour
 {
     [SerializeField] List<Character> characters; //список всех персонажей игрока
     [SerializeField] Character selectedCharacter;
+    
+    [SerializeField] private Color _color;
+    public Color Color => _color;
+    
     public Character SelectedCharacter => selectedCharacter;
     void OnCharacterSelected(Character characterTarget)
     {
