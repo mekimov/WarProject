@@ -26,7 +26,8 @@ public class PathCreator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        BattleController.Instance.onTurnBegin += LineReset;
+
     }
 
     // Update is called once per frame
@@ -64,5 +65,10 @@ public class PathCreator : MonoBehaviour
         if (!points.Any())
             return Mathf.Infinity;
         return Vector3.Distance(points.Last(), point);
+    }
+
+    public void LineReset(Player player)
+    {
+        lineRenderer.positionCount = 0;
     }
 }
