@@ -8,7 +8,7 @@ public class PathCreator : MonoBehaviour
 {
     private LineRenderer lineRenderer;
     private List<Vector3> points = new List<Vector3>();
-    public Action<IEnumerable<Vector3>> OnNewPathCreated = delegate { }; // вот тут ниче не понял
+    public Action<IEnumerable<Vector3>> OnNewPathCreated = delegate { }; 
 
     private bool IsPointNearSelectedCharacter(Vector3 point)
     {
@@ -27,7 +27,7 @@ public class PathCreator : MonoBehaviour
     void Start()
     {
         BattleController.Instance.onTurnBegin += LineReset;
-
+        PathMover.Instance.onLineDeque += LineUpdate;
     }
 
     // Update is called once per frame
@@ -38,7 +38,7 @@ public class PathCreator : MonoBehaviour
 
         if (Input.GetButton("Fire1"))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); // вот тут ниче не понял
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); 
             RaycastHit hitInfo;
             if (Physics.Raycast(ray, out hitInfo))
             {
@@ -70,5 +70,11 @@ public class PathCreator : MonoBehaviour
     public void LineReset(Player player)
     {
         lineRenderer.positionCount = 0;
+    }
+
+    public void LineUpdate(Queue<Vector3> l)
+    {
+       lineRenderer.positionCount = l.Count;
+       lineRenderer.SetPositions(l.ToArray());
     }
 }

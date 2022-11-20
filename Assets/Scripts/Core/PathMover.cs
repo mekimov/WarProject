@@ -6,10 +6,14 @@ using UnityEngine.AI;
 
 public class PathMover : MonoBehaviour
 {
+    public static PathMover Instance { get; private set; }
     [SerializeField] private NavMeshAgent navmeshagent;
     [SerializeField] private Animator animator;
     private Queue<Vector3> pathPoints = new Queue<Vector3>();
     Vector3 prevPosition;
+
+    public delegate void MethodContainer(Queue<Vector3> pathUpdate);
+    public event MethodContainer onLineDeque;
     
     public bool waitForCommand;
 
@@ -49,11 +53,15 @@ public class PathMover : MonoBehaviour
         if (pathPoints.Count > 0 && points.Count() == 0)
             return;
         Debug.Log("SetPoints" + points);
-        pathPoints = new Queue<Vector3>(points);
+        pathPoints = new Queue<Vector3>(points); 
         //if (pathPoints.Count > 0)
             //waitForCommand = false;
     }
 
+    public void Start()
+    {
+        Instance = this;
+    }
     // Update is called once per frame
     public void Update()
     {
@@ -66,6 +74,7 @@ public class PathMover : MonoBehaviour
     {
         if (ShouldSetDestination())
             navmeshagent.SetDestination(pathPoints.Dequeue());
+            onLineDeque(pathPoints);//Здесь нужно обновить PathCreator
     }
 
     private bool ShouldSetDestination()
