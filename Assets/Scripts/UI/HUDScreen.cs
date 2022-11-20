@@ -23,8 +23,7 @@ public class HUDScreen : MonoBehaviour
     public void BeginFight()
     {
         Debug.LogError("Active player: " + BattleController.Instance.ActivePlayer.SelectedCharacter.gameObject.name);
-        BattleController.Instance.ActivePlayer.SelectedCharacter.pathmover.LogPointsInfo();
-        BattleController.Instance.ActivePlayer.SelectedCharacter.pathmover.waitForCommand = false;
-        BattleController.Instance.ActivePlayer.SelectedCharacter.pathmover.LogPointsInfo();
+        BattleController.Instance.ActivePlayer.BeginFight();
+        
     }
 }

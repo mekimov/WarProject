@@ -6,11 +6,19 @@ public class Player : MonoBehaviour
 {
     [SerializeField] List<Character> characters; //список всех персонажей игрока
     [SerializeField] Character selectedCharacter;
-    
+
     [SerializeField] private Color _color;
     public Color Color => _color;
-    
+
     public Character SelectedCharacter => selectedCharacter;
+
+    public void BeginFight()
+    {
+        foreach (var c in characters)
+        {
+            c.pathmover.waitForCommand = false;
+        }
+    }
     void OnCharacterSelected(Character characterTarget)
     {
         if (selectedCharacter != null)
@@ -22,6 +30,19 @@ public class Player : MonoBehaviour
     {
         if (selectedCharacter != null)
             selectedCharacter.OnUnselect();
+    }
+
+    public void TrySelectCharacter(Character target)
+    {
+        foreach (var c in characters)
+        {
+            if (c == target)
+               {
+                OnCharacterSelected(c);
+                return;
+            }
+            
+        }
     }
     public void OnBeginTurn()
     {

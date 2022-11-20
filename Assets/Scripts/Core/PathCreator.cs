@@ -23,6 +23,20 @@ public class PathCreator : MonoBehaviour
         lineRenderer = GetComponent<LineRenderer>();
     }
 
+    private bool SelectedCharacterHasEnoughEnergy(List<Vector3> p)
+    {
+        float wayLength = 0;
+        for (int i = 0; i < p.Count - 1; i++)
+        {
+            float dist = Vector3.Distance(p[i], p[i + 1]);
+            wayLength += dist;
+        }
+        var selectedCharacter = BattleController.Instance.ActivePlayer.SelectedCharacter;
+        if (selectedCharacter == null)
+            return false;
+        return wayLength < selectedCharacter.MaxWayPerTurn(); //аналогия if проверки
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,7 +58,7 @@ public class PathCreator : MonoBehaviour
             {
                 if (DistanceToLastPoint(hitInfo.point) > 1f)
                 {
-                    if (points.Count > 0 || IsPointNearSelectedCharacter(hitInfo.point))
+                    if ((points.Count > 0 || IsPointNearSelectedCharacter(hitInfo.point)) && SelectedCharacterHasEnoughEnergy(points))
                     {
                         points.Add(hitInfo.point);
                         lineRenderer.positionCount = points.Count;

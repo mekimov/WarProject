@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using System;
 
 public class PathMover : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class PathMover : MonoBehaviour
 
     public delegate void MethodContainer(Queue<Vector3> pathUpdate);
     public event MethodContainer onLineDeque;
+
+    //public Action<Queue> actionRedrawLine;
     
     public bool waitForCommand;
 
@@ -52,7 +55,7 @@ public class PathMover : MonoBehaviour
     {
         if (pathPoints.Count > 0 && points.Count() == 0)
             return;
-        Debug.Log("SetPoints" + points);
+        //Debug.LogError("SetPoints" + points);
         pathPoints = new Queue<Vector3>(points); 
         //if (pathPoints.Count > 0)
             //waitForCommand = false;
@@ -73,8 +76,10 @@ public class PathMover : MonoBehaviour
     private void UpdatePathing()
     {
         if (ShouldSetDestination())
+        {
             navmeshagent.SetDestination(pathPoints.Dequeue());
-            onLineDeque(pathPoints);//Здесь нужно обновить PathCreator
+            onLineDeque?.Invoke(pathPoints);//Здесь нужно обновить PathCreator
+        }
     }
 
     private bool ShouldSetDestination()
