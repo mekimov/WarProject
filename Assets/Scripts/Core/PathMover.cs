@@ -7,9 +7,10 @@ using System;
 
 public class PathMover : MonoBehaviour
 {
-    public static PathMover Instance { get; private set; }
     [SerializeField] private NavMeshAgent navmeshagent;
     [SerializeField] private Animator animator;
+    [SerializeField] private LineRenderer lineRenderer;
+
     private Queue<Vector3> pathPoints = new Queue<Vector3>();
     Vector3 prevPosition;
 
@@ -55,17 +56,15 @@ public class PathMover : MonoBehaviour
     {
         if (pathPoints.Count > 0 && points.Count() == 0)
             return;
+        lineRenderer.positionCount = points.Count();
+        lineRenderer.SetPositions(points.ToArray());
         //Debug.LogError("SetPoints" + points);
         pathPoints = new Queue<Vector3>(points); 
         //if (pathPoints.Count > 0)
             //waitForCommand = false;
     }
 
-    public void Start()
-    {
-        Instance = this;
-    }
-    // Update is called once per frame
+       // Update is called once per frame
     public void Update()
     {
         UpdatePathing();
@@ -79,6 +78,7 @@ public class PathMover : MonoBehaviour
         {
             navmeshagent.SetDestination(pathPoints.Dequeue());
             onLineDeque?.Invoke(pathPoints);//Здесь нужно обновить PathCreator
+            FindObjectOfType<PathCreator>().LineUpdate(pathPoints, lineRenderer);
         }
     }
 

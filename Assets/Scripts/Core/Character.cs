@@ -6,12 +6,32 @@ public class Character : MonoBehaviour
 {
     public PathMover pathmover;
     public Animator animator;
-    public int stamina = 50;
+    public Stats stats;
     public GameObject selectionAura;
 
     public float MaxWayPerTurn()
     {
-        return (stamina);
+        return (stats.stamina);
+    }
+
+    public void DoAttack(Character c)
+    {
+        c.ReceiveDamage(stats.Attack);
+    }
+
+    public void ReceiveDamage(int damage)
+    {
+        stats.CurrentHP -= damage;
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        var target = other.GetComponent<Character>();
+        if (target != null)
+        {
+            target.ReceiveDamage(stats.Attack);
+        }
+
     }
 
     public void OnSelect()

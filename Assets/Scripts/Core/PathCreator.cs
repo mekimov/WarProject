@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class PathCreator : MonoBehaviour
 {
-    private LineRenderer lineRenderer;
     private List<Vector3> points = new List<Vector3>();
     public Action<IEnumerable<Vector3>> OnNewPathCreated = delegate { }; 
 
@@ -18,11 +17,7 @@ public class PathCreator : MonoBehaviour
         var dist = Vector3.Distance(selectedCharacter.transform.position, point);
         return dist < 5;
     }
-    private void Awake()
-    {
-        lineRenderer = GetComponent<LineRenderer>();
-    }
-
+    
     private bool SelectedCharacterHasEnoughEnergy(List<Vector3> p)
     {
         float wayLength = 0;
@@ -40,8 +35,7 @@ public class PathCreator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        BattleController.Instance.onTurnBegin += LineReset;
-        PathMover.Instance.onLineDeque += LineUpdate;
+       // BattleController.Instance.onTurnBegin += LineReset;
     }
 
     // Update is called once per frame
@@ -61,10 +55,10 @@ public class PathCreator : MonoBehaviour
                     if ((points.Count > 0 || IsPointNearSelectedCharacter(hitInfo.point)) && SelectedCharacterHasEnoughEnergy(points))
                     {
                         points.Add(hitInfo.point);
-                        lineRenderer.positionCount = points.Count;
-                        lineRenderer.SetPositions(points.ToArray());
+                        OnNewPathCreated(points);
+
                     }
-                    
+
 
                 }
             }
@@ -81,12 +75,7 @@ public class PathCreator : MonoBehaviour
         return Vector3.Distance(points.Last(), point);
     }
 
-    public void LineReset(Player player)
-    {
-        lineRenderer.positionCount = 0;
-    }
-
-    public void LineUpdate(Queue<Vector3> l)
+      public void LineUpdate(Queue<Vector3> l, LineRenderer lineRenderer)
     {
        lineRenderer.positionCount = l.Count;
        lineRenderer.SetPositions(l.ToArray());
