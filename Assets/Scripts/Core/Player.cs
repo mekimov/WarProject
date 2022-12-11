@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] List<Character> characters; //список всех персонажей игрока
+    public List<Character> AllCharacters => characters;
     [SerializeField] Character selectedCharacter;
 
     [SerializeField] private Color _color;

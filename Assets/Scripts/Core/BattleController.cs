@@ -12,8 +12,15 @@ public class BattleController : MonoBehaviour
     public Player ActivePlayer => activePlayer;
 
     public Action<Player> onTurnBegin;
+    public IEnumerable<Player> AllPlayers
+    {
+        get { yield return red;
+            yield return blue;
+        }
+
+    }
     // Start is called before the first frame update
-    
+
     public void SwitchActivePlayer()
     {
         if (activePlayer == red)

@@ -8,11 +8,20 @@ public class HUDScreen : MonoBehaviour
 {
     [SerializeField] private Button _beginFightButton;
     [SerializeField] private BeginTurnMessage _turnMessage;
+    [SerializeField] private HealthBar healthBarPrefab;
 
     private void Start()
     {
         _beginFightButton.onClick.AddListener(BeginFight);
         BattleController.Instance.onTurnBegin += ShowTurnMessage;
+        foreach (var player in BattleController.Instance.AllPlayers)
+        {
+            foreach (var character in player.AllCharacters)
+            {
+                var healthbar = Instantiate(healthBarPrefab, transform);
+                healthbar.SetCharacter(character);
+            }
+        }
     }
 
     public void ShowTurnMessage(Player player)
