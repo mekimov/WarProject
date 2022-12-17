@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4918236397128629659}
   - component: {fileID: 5518039991098899756}
+  - component: {fileID: 6435126792806816533}
   m_Layer: 0
   m_Name: SelectionAura
   m_TagString: Untagged
@@ -25,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 305148193600544230}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.16, y: -0.37, z: -0.25}
+  m_LocalPosition: {x: 0.16, y: 0.2, z: -0.25}
   m_LocalScale: {x: 2, y: 1.7368952, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -53,6 +54,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &6435126792806816533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 305148193600544230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 184cd5b3ef3bb4afe88e433c5e61e7af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1250515802992860162
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,6 +174,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   stats: {fileID: 7159472041239752933}
   selectionAura: {fileID: 305148193600544230}
+  _beginFightButton: {fileID: 0}
 --- !u!135 &1012937642367684320
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Character : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class Character : MonoBehaviour
     public Animator animator;
     public Stats stats;
     public GameObject selectionAura;
+    [SerializeField] public Button _beginFightButton; 
 
     public float MaxWayPerTurn()
     {
@@ -38,8 +40,6 @@ public class Character : MonoBehaviour
     {
         pathmover.OnSelect();
         selectionAura.SetActive(true);
-
-
     }
     public void OnUnselect()
     {
@@ -74,6 +74,8 @@ public class Character : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
             animator.SetTrigger("Attack");
+        _beginFightButton.onClick.AddListener(OnUnselect);
+
     }
     public bool TurnFinished()
     {
