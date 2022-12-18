@@ -11,4 +11,10 @@ public class Stats : MonoBehaviour
     public int CurrentHP { get { return currentHP; } set { currentHP = value; } }
     [SerializeField] private int attack = 100;
     public int Attack { get { return attack; } }
+    [SerializeField] private int initiative = 100;
+    public int Initiative { get { return initiative; } }
+    [SerializeField] private int attackCount = 1;
+    public int AttackCount { get { return attackCount; } }
+    [SerializeField] private int counterAttackCount = 1;
+    public int CounterAttackCount { get { return counterAttackCount; } }
 }

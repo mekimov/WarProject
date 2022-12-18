@@ -9,6 +9,7 @@ public class Character : MonoBehaviour
     public Animator animator;
     public Stats stats;
     public GameObject selectionAura;
+    public Character attackTarget;
     [SerializeField] public Button _beginFightButton; 
 
     public float MaxWayPerTurn()
@@ -19,11 +20,13 @@ public class Character : MonoBehaviour
     public void DoAttack(Character c)
     {
         c.ReceiveDamage(stats.Attack);
+        animator.SetTrigger("Attack");
     }
 
     public void ReceiveDamage(int damage)
     {
         stats.CurrentHP -= damage;
+        animator.SetTrigger("ReceiveDamage");
     }
 
     public void OnTriggerEnter(Collider other)
@@ -31,7 +34,8 @@ public class Character : MonoBehaviour
         var target = other.GetComponent<Character>();
         if (target != null)
         {
-            target.ReceiveDamage(stats.Attack);
+            attackTarget = target;//DoAttack(target);
+            pathmover.StopMoving();
         }
 
     }
@@ -50,6 +54,7 @@ public class Character : MonoBehaviour
     public void OnBeginTurn()
     {
         pathmover.waitForCommand = true;
+        attackTarget = null;
     }
 
     public void OnMouseDown()
@@ -66,6 +71,7 @@ public class Character : MonoBehaviour
     {
         {
             animator = GetComponentInChildren<Animator>();
+            _beginFightButton.onClick.AddListener(OnUnselect);
         }
     }
 
@@ -74,11 +80,10 @@ public class Character : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
             animator.SetTrigger("Attack");
-        _beginFightButton.onClick.AddListener(OnUnselect);
 
     }
-    public bool TurnFinished()
+    public bool MoveFinished()
     {
-        return (pathmover.TurnFinished());
+        return (pathmover.MoveFinished());
     }
 }

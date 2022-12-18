@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     {
         foreach (var c in characters)
         {
-            c.pathmover.waitForCommand = false;
+            var turn = new Turn(c);
         }
     }
     void OnCharacterSelected(Character characterTarget)
@@ -61,7 +61,7 @@ public class Player : MonoBehaviour
     {
        foreach (var c in characters)
         {
-            if (!c.TurnFinished())
+            if (!c.MoveFinished())
                 return false;
         }
         return (true);

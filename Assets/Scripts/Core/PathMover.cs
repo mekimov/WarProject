@@ -77,7 +77,7 @@ public class PathMover : MonoBehaviour
         if (ShouldSetDestination())
         {
             navmeshagent.SetDestination(pathPoints.Dequeue());
-            onLineDeque?.Invoke(pathPoints);//Здесь нужно обновить PathCreator
+            onLineDeque?.Invoke(pathPoints);
             FindObjectOfType<PathCreator>().LineUpdate(pathPoints, lineRenderer);
         }
     }
@@ -94,8 +94,16 @@ public class PathMover : MonoBehaviour
         return false;
     }
 
-    public bool TurnFinished()
+    public bool MoveFinished()
     {
         return (pathPoints.Count == 0 && !waitForCommand);
+    }
+
+    public void StopMoving()
+    {
+        pathPoints.Clear();
+        waitForCommand = false;
+        onLineDeque?.Invoke(pathPoints);
+        FindObjectOfType<PathCreator>().LineUpdate(pathPoints, lineRenderer);
     }
 }
