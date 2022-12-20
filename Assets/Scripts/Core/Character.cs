@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AI;
 
 public class Character : MonoBehaviour
 {
@@ -10,7 +11,10 @@ public class Character : MonoBehaviour
     public Stats stats;
     public GameObject selectionAura;
     public Character attackTarget;
-    [SerializeField] public Button _beginFightButton; 
+    public Vector3 retreatPoint;
+
+    [SerializeField] public Button _beginFightButton;
+    [SerializeField] public NavMeshAgent navMeshAgent;
 
     public float MaxWayPerTurn()
     {
@@ -21,6 +25,13 @@ public class Character : MonoBehaviour
     {
         c.ReceiveDamage(stats.Attack);
         animator.SetTrigger("Attack");
+    }
+
+    public void DoRetreat(Character c)
+    {
+        retreatPoint = new Vector3();
+        retreatPoint = (((c.transform.position + transform.position) / 2f) - c.transform.position);
+        navMeshAgent.destination = retreatPoint; // - обратиться к навмешу кэрэктера, думаю, метод надо писать там
     }
 
     public void ReceiveDamage(int damage)
@@ -86,4 +97,5 @@ public class Character : MonoBehaviour
     {
         return (pathmover.MoveFinished());
     }
+  
 }
