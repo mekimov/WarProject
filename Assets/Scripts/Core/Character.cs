@@ -11,7 +11,7 @@ public class Character : MonoBehaviour
     public Stats stats;
     public GameObject selectionAura;
     public Character attackTarget;
-    public Vector3 retreatPoint;
+    public Vector3 retreatPoint = new Vector3();
 
     [SerializeField] public Button _beginFightButton;
     [SerializeField] public NavMeshAgent navMeshAgent;
@@ -29,9 +29,7 @@ public class Character : MonoBehaviour
 
     public void DoRetreat(Character c)
     {
-        retreatPoint = new Vector3();
-        retreatPoint = (((c.transform.position + transform.position) / 2f) - c.transform.position);
-        navMeshAgent.destination = retreatPoint; // - обратиться к навмешу кэрэктера, думаю, метод надо писать там
+        navMeshAgent.SetDestination(retreatPoint); // - обратиться к навмешу кэрэктера, думаю, метод надо писать там
     }
 
     public void ReceiveDamage(int damage)
@@ -47,6 +45,7 @@ public class Character : MonoBehaviour
         {
             attackTarget = target;//DoAttack(target);
             pathmover.StopMoving();
+            retreatPoint = -2f* (((transform.position + attackTarget.transform.position) / 2f) - transform.position);
         }
 
     }

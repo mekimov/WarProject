@@ -28,7 +28,6 @@ public class Turn
             yield return new WaitForSeconds(1.5f);
             character.DoRetreat(character.attackTarget);//почему-то после отступления ход не заканчивается. Нужно еще смотреть  
             //character.attackTarget.DoRetreat(character); // -- но это надо получать противополжные точки. Хотя мб other именно так и работает
-            character.attackTarget = null;
         }
     }
 }
