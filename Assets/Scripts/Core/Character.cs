@@ -29,7 +29,7 @@ public class Character : MonoBehaviour
 
     public void DoRetreat(Character c)
     {
-        navMeshAgent.SetDestination(retreatPoint); // - обратиться к навмешу кэрэктера, думаю, метод надо писать там
+        navMeshAgent.SetDestination(retreatPoint);
     }
 
     public void ReceiveDamage(int damage)
@@ -45,7 +45,10 @@ public class Character : MonoBehaviour
         {
             attackTarget = target;//DoAttack(target);
             pathmover.StopMoving();
-            retreatPoint = -2f* (((transform.position + attackTarget.transform.position) / 2f) - transform.position);
+            // retreatPoint = -2f* (((transform.position + attackTarget.transform.position) / 2f) - transform.position);
+            var deltaVector = -1* (attackTarget.transform.position - transform.position).normalized;
+            var retreatDistance = 10.0f;
+            retreatPoint = transform.position + deltaVector * retreatDistance;
         }
 
     }
