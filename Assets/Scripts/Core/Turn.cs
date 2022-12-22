@@ -27,7 +27,7 @@ public class Turn
             character.attackTarget.DoAttack(character);
             yield return new WaitForSeconds(1.5f);
             character.DoRetreat(character.attackTarget);
-            character.attackTarget.DoRetreat(character); // -- но это надо получать противополжные точки. Хотя мб other именно так и работает
+            character.attackTarget.DoRetreat(character); 
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.AI;
+using UnityEngine.TextCore.Text;
 
 public class Character : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class Character : MonoBehaviour
 
     public void DoAttack(Character c)
     {
+        transform.LookAt(c.transform);
+
         c.ReceiveDamage(stats.Attack);
         animator.SetTrigger("Attack");
     }
@@ -30,6 +33,8 @@ public class Character : MonoBehaviour
     public void DoRetreat(Character c)
     {
         navMeshAgent.SetDestination(retreatPoint);
+        transform.LookAt(c.transform);
+
     }
 
     public void ReceiveDamage(int damage)

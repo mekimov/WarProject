@@ -23,7 +23,9 @@ public class HealthBar : MonoBehaviour
         rect.localPosition = pos;
 
         var scale = health.transform.localScale;
+        
         scale.x = character.stats.CurrentHP / (float)character.stats.MaxHP;
         health.transform.localScale = scale;
+        
     }
 }
