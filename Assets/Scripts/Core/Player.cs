@@ -4,23 +4,32 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] List<Character> characters; //список всех персонажей игрока
-    public List<Character> AllCharacters => characters;
-    [SerializeField] Character selectedCharacter;
+    [SerializeField] List<Unit> characters; //список всех персонажей игрока
+    public List<Unit> AllCharacters => characters;
+    [SerializeField] Unit selectedCharacter;
 
     [SerializeField] private Color _color;
     public Color Color => _color;
 
-    public Character SelectedCharacter => selectedCharacter;
+    public Unit SelectedCharacter => selectedCharacter;
 
-    public void BeginFight()
+    private void Start()
     {
-        foreach (var c in characters)
+        foreach (var unit in characters)
         {
-            var turn = new Turn(c);
+            unit.owner = this; //this -- обращение к текущему экземпляру класса
         }
     }
-    void OnCharacterSelected(Character characterTarget)
+    public void BeginFight()
+    {
+        var turn = new Turn(BattleController.Instance.SwitchActivePlayer);
+        foreach (var c in characters)
+        {
+            turn.AddUnit(c);
+        }
+        turn.Begin();
+    }
+    void OnCharacterSelected(Unit characterTarget)
     {
         if (selectedCharacter != null)
             selectedCharacter.OnUnselect();
@@ -33,7 +42,7 @@ public class Player : MonoBehaviour
             selectedCharacter.OnUnselect();
     }
 
-    public void TrySelectCharacter(Character target)
+    public void TrySelectCharacter(Unit target)
     {
         foreach (var c in characters)
         {

@@ -17,4 +17,9 @@ public class Stats : MonoBehaviour
     public int AttackCount { get { return attackCount; } }
     [SerializeField] private int counterAttackCount = 1;
     public int CounterAttackCount { get { return counterAttackCount; } }
+
+    public bool IsAlive()
+    {
+        return CurrentHP > 0f;
+    }
 }

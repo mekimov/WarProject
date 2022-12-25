@@ -7,9 +7,9 @@ public class HealthBar : MonoBehaviour
 {
     [SerializeField] private Image health;
     [SerializeField] private RectTransform rect;
-    private Character character;
+    private Unit character;
 
-    public void SetCharacter(Character c)
+    public void SetCharacter(Unit c)
     {
         character = c;
     }
@@ -31,7 +31,9 @@ public class HealthBar : MonoBehaviour
         }
         else
         {
-            Destroy(health);
+            scale.x = 0f ;
+            health.transform.localScale = scale;
+            this.gameObject.SetActive (false);
         }
 
 
