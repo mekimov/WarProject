@@ -11,6 +11,7 @@ public class Character : MonoBehaviour
     public Animator animator;
     public Stats stats;
     public GameObject selectionAura;
+    public GameObject healthBar;
     public Character attackTarget;
     public Vector3 retreatPoint = new Vector3();
 
@@ -96,13 +97,23 @@ public class Character : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-            animator.SetTrigger("Attack");
+        CharacterDead();
 
     }
     public bool MoveFinished()
     {
         return (pathmover.MoveFinished());
+    }
+
+    public void CharacterDead()
+    {
+        if (stats.CurrentHP <= 0)
+        {
+            animator.SetTrigger("Die");
+            selectionAura.SetActive(false);
+            
+        }
+        return;
     }
   
 }

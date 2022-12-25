@@ -24,8 +24,16 @@ public class HealthBar : MonoBehaviour
 
         var scale = health.transform.localScale;
         
-        scale.x = character.stats.CurrentHP / (float)character.stats.MaxHP;
-        health.transform.localScale = scale;
-        
+        if (character.stats.CurrentHP > 0f)
+        {
+            scale.x = character.stats.CurrentHP / (float)character.stats.MaxHP;
+            health.transform.localScale = scale;
+        }
+        else
+        {
+            Destroy(health);
+        }
+
+
     }
 }
