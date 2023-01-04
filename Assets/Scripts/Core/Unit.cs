@@ -75,12 +75,11 @@ public class Unit : MonoBehaviour
     {
         pathmover.waitForCommand = true;
         attackTarget = null;
-        Debug.LogError($"On begin turn {this.gameObject.name}");
     }
 
     public void OnMouseDown()
     {
-        BattleController.Instance.ActivePlayer.TrySelectCharacter(this);
+        BattleController.Instance.ActivePlayer.TrySelectUnit(this);
     }
     private void Awake()
     {
@@ -99,7 +98,7 @@ public class Unit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CharacterDead();
+        UnitDead();
 
     }
     public bool MoveFinished()
@@ -107,13 +106,13 @@ public class Unit : MonoBehaviour
         return (pathmover.MoveFinished());
     }
 
-    public void CharacterDead()
+    public void UnitDead()
     {
         if (stats.CurrentHP <= 0)
         {
             animator.SetTrigger("Die");
             selectionAura.SetActive(false);
-            owner.AllCharacters.Remove(this);
+            owner.AllUnits.Remove(this);
             var colliders = GetComponentsInChildren<Collider>(); //<> - дженерик, подставной шаблон
             foreach (var c in colliders)
             {

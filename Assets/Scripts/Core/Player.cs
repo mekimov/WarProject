@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] List<Unit> characters; //список всех персонажей игрока
-    public List<Unit> AllCharacters => characters;
-    [SerializeField] Unit selectedCharacter;
+    [SerializeField] List<Unit> units; //список всех персонажей игрока
+    public List<Unit> AllUnits => units;
+    [SerializeField] Unit selectedUnit;
 
     [SerializeField] private Color _color;
     public Color Color => _color;
 
-    public Unit SelectedCharacter => selectedCharacter;
+    public Unit SelectedUnit => selectedUnit;
 
     private void Start()
     {
-        foreach (var unit in characters)
+        foreach (var unit in units)
         {
             unit.owner = this; //this -- обращение к текущему экземпляру класса
         }
@@ -23,32 +23,32 @@ public class Player : MonoBehaviour
     public void BeginFight()
     {
         var turn = new Turn(BattleController.Instance.SwitchActivePlayer);
-        foreach (var c in characters)
+        foreach (var c in units)
         {
             turn.AddUnit(c);
         }
         turn.Begin();
     }
-    void OnCharacterSelected(Unit characterTarget)
+    void OnUnitSelected(Unit unitTarget)
     {
-        if (selectedCharacter != null)
-            selectedCharacter.OnUnselect();
-        selectedCharacter = characterTarget;
-        selectedCharacter.OnSelect();
+        if (selectedUnit != null)
+            selectedUnit.OnUnselect();
+        selectedUnit = unitTarget;
+        selectedUnit.OnSelect();
     }
-    void OnCharacterUnselected()
+    void OnUnitUnselected()
     {
-        if (selectedCharacter != null)
-            selectedCharacter.OnUnselect();
+        if (selectedUnit != null)
+            selectedUnit.OnUnselect();
     }
 
-    public void TrySelectCharacter(Unit target)
+    public void TrySelectUnit(Unit target)
     {
-        foreach (var c in characters)
+        foreach (var c in units)
         {
             if (c == target)
                {
-                OnCharacterSelected(c);
+                OnUnitSelected(c);
                 return;
             }
             
@@ -56,19 +56,19 @@ public class Player : MonoBehaviour
     }
     public void OnBeginTurn()
     {
-        OnCharacterSelected(characters[0]);
-        foreach (var c in characters)
+        OnUnitSelected(units[0]);
+        foreach (var c in units)
         {
             c.OnBeginTurn();
         }
     }
     public void OnEndTurn()
     {
-        OnCharacterUnselected();
+        OnUnitUnselected();
     }
-    public bool AllCharactersFinishTurn()
+    public bool AllUnitsFinishTurn()
     {
-       foreach (var c in characters)
+       foreach (var c in units)
         {
             if (!c.MoveFinished())
                 return false;

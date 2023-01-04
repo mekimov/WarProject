@@ -16,10 +16,10 @@ public class HUDScreen : MonoBehaviour
         BattleController.Instance.onTurnBegin += ShowTurnMessage;
         foreach (var player in BattleController.Instance.AllPlayers)
         {
-            foreach (var character in player.AllCharacters)
+            foreach (var unit in player.AllUnits)
             {
                 var healthbar = Instantiate(healthBarPrefab, transform);
-                healthbar.SetCharacter(character);
+                healthbar.SetUnit(unit);
             }
         }
     }
@@ -31,8 +31,6 @@ public class HUDScreen : MonoBehaviour
 
     public void BeginFight()
     {
-        Debug.LogError("Active player: " + BattleController.Instance.ActivePlayer.SelectedCharacter.gameObject.name);
         BattleController.Instance.ActivePlayer.BeginFight();
-        
     }
 }

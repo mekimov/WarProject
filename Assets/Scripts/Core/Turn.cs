@@ -5,7 +5,7 @@ using System;
 
 public class Turn
 {
-    List<Unit> characters = new List<Unit>();
+    List<Unit> units = new List<Unit>();
     private Action callback;
 
     public Turn(Action callback)
@@ -15,7 +15,7 @@ public class Turn
 
     public void AddUnit(Unit c)
     {
-        characters.Add(c);
+        units.Add(c);
     }
 
     public void Begin()
@@ -24,11 +24,11 @@ public class Turn
     }
     private IEnumerator TurnRoutine()
     {
-        foreach (Unit unit in characters)
+        foreach (Unit unit in units)
         {
             BattleController.Instance.StartCoroutine(UnitTurnRoutine(unit));
         }
-        while (characters.Count > 0)
+        while (units.Count > 0)
         {
             yield return null;
         }
@@ -36,34 +36,40 @@ public class Turn
 
 
     }
-    private IEnumerator UnitTurnRoutine(Unit character)
+    private IEnumerator UnitTurnRoutine(Unit unit)
     {
         yield return null;
-        character.pathmover.waitForCommand = false;
-        while (!character.MoveFinished())
+        unit.pathmover.waitForCommand = false;
+        while (!unit.MoveFinished())
         {
             yield return null; //Ждем следующего апдейта чтобы продолжить исполнение кода
         }
 
-        if (character.attackTarget != null)
+        if (unit.attackTarget != null)
         {
-            character.DoAttack(character.attackTarget);
-            yield return new WaitForSeconds(1.5f);
-            if (character.attackTarget.stats.IsAlive())
+            for (int i = unit.stats.AttackCount; i > 0; i--)
             {
-                character.attackTarget.DoAttack(character);
+                unit.DoAttack(unit.attackTarget);
                 yield return new WaitForSeconds(1.5f);
             }
-            if (character.stats.IsAlive())
+            if (unit.attackTarget.stats.IsAlive())
             {
-                character.DoRetreat(character.attackTarget);
+                for (int i = unit.attackTarget.stats.CounterAttackCount; i > 0; i--)
+                {
+                    unit.attackTarget.DoAttack(unit);
+                    yield return new WaitForSeconds(1.5f);
+                }
             }
-            if (character.attackTarget.stats.IsAlive())
+            if (unit.stats.IsAlive())
             {
-                character.attackTarget.DoRetreat(character);
+                unit.DoRetreat(unit.attackTarget);
+            }
+            if (unit.attackTarget.stats.IsAlive())
+            {
+                unit.attackTarget.DoRetreat(unit);
             }
         }
-        characters.Remove(character);
+        units.Remove(unit);
     }
 }
 

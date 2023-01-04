@@ -7,26 +7,26 @@ public class HealthBar : MonoBehaviour
 {
     [SerializeField] private Image health;
     [SerializeField] private RectTransform rect;
-    private Unit character;
+    private Unit unit;
 
-    public void SetCharacter(Unit c)
+    public void SetUnit(Unit c)
     {
-        character = c;
+        unit = c;
     }
    
     // Update is called once per frame
     void Update()
     {
-        var pos = Camera.main.WorldToScreenPoint(character.transform.position + Vector3.up * 5 ); // Трансформирует точку игрового мира в точку с координатами x,y (0,1)
+        var pos = Camera.main.WorldToScreenPoint(unit.transform.position + Vector3.up * 5 ); // Трансформирует точку игрового мира в точку с координатами x,y (0,1)
         pos.x = pos.x/Screen.width * 960f - 480f;
         pos.y = pos.y/Screen.height * 540f - 270f;
         rect.localPosition = pos;
 
         var scale = health.transform.localScale;
         
-        if (character.stats.CurrentHP > 0f)
+        if (unit.stats.CurrentHP > 0f)
         {
-            scale.x = character.stats.CurrentHP / (float)character.stats.MaxHP;
+            scale.x = unit.stats.CurrentHP / (float)unit.stats.MaxHP;
             health.transform.localScale = scale;
         }
         else

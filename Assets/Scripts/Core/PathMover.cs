@@ -19,13 +19,7 @@ public class PathMover : MonoBehaviour
 
     //public Action<Queue> actionRedrawLine;
     
-    public bool waitForCommand;
-
-    public void LogPointsInfo()
-    {
-        Debug.LogError(pathPoints.Count);
-    }
-    
+    public bool waitForCommand; 
 
     public void OnDrawGizmos()
     {
@@ -58,7 +52,6 @@ public class PathMover : MonoBehaviour
             return;
         lineRenderer.positionCount = points.Count();
         lineRenderer.SetPositions(points.ToArray());
-        //Debug.LogError("SetPoints" + points);
         pathPoints = new Queue<Vector3>(points); 
         //if (pathPoints.Count > 0)
             //waitForCommand = false;
@@ -84,7 +77,6 @@ public class PathMover : MonoBehaviour
 
     private bool ShouldSetDestination()
     {
-        Debug.Log("pathPoints.Count = " + pathPoints.Count);
         if (pathPoints.Count == 0)
             return false;
         if (waitForCommand)

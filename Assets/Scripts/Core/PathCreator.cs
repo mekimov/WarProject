@@ -9,16 +9,16 @@ public class PathCreator : MonoBehaviour
     private List<Vector3> points = new List<Vector3>();
     public Action<IEnumerable<Vector3>> OnNewPathCreated = delegate { }; 
 
-    private bool IsPointNearSelectedCharacter(Vector3 point)
+    private bool IsPointNearSelectedUnit(Vector3 point)
     {
-        var selectedCharacter = BattleController.Instance.ActivePlayer.SelectedCharacter;
-        if (selectedCharacter == null)
+        var selectedUnit = BattleController.Instance.ActivePlayer.SelectedUnit;
+        if (selectedUnit == null)
             return false;
-        var dist = Vector3.Distance(selectedCharacter.transform.position, point);
+        var dist = Vector3.Distance(selectedUnit.transform.position, point);
         return dist < 5;
     }
     
-    private bool SelectedCharacterHasEnoughEnergy(List<Vector3> p)
+    private bool SelectedUnitHasEnoughEnergy(List<Vector3> p)
     {
         float wayLength = 0;
         for (int i = 0; i < p.Count - 1; i++)
@@ -26,10 +26,10 @@ public class PathCreator : MonoBehaviour
             float dist = Vector3.Distance(p[i], p[i + 1]);
             wayLength += dist;
         }
-        var selectedCharacter = BattleController.Instance.ActivePlayer.SelectedCharacter;
-        if (selectedCharacter == null)
+        var selectedUnit = BattleController.Instance.ActivePlayer.SelectedUnit;
+        if (selectedUnit == null)
             return false;
-        return wayLength < selectedCharacter.MaxWayPerTurn(); //аналогия if проверки
+        return wayLength < selectedUnit.MaxWayPerTurn(); //аналогия if проверки
     }
 
     // Start is called before the first frame update
@@ -52,7 +52,7 @@ public class PathCreator : MonoBehaviour
             {
                 if (DistanceToLastPoint(hitInfo.point) > 1f)
                 {
-                    if ((points.Count > 0 || IsPointNearSelectedCharacter(hitInfo.point)) && SelectedCharacterHasEnoughEnergy(points))
+                    if ((points.Count > 0 || IsPointNearSelectedUnit(hitInfo.point)) && SelectedUnitHasEnoughEnergy(points))
                     {
                         points.Add(hitInfo.point);
                         OnNewPathCreated(points);

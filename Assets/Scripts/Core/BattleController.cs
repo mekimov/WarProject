@@ -30,8 +30,6 @@ public class BattleController : MonoBehaviour
             activePlayer.OnBeginTurn();
             
             onTurnBegin?.Invoke(activePlayer);
-            
-            Debug.Log("Active player - blue");
         }
         else
         {
@@ -40,8 +38,6 @@ public class BattleController : MonoBehaviour
             activePlayer.OnBeginTurn();
             
             onTurnBegin?.Invoke(activePlayer);
-            
-            Debug.Log("Active player - red");
         }
     }
     void Awake()
