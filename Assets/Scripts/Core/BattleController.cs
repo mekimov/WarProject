@@ -48,6 +48,10 @@ public class BattleController : MonoBehaviour
             onTurnBegin?.Invoke(activePlayer);
         }
     }
+    public void StopPreparing()
+    {
+        activePlayer.OnEndTurn();
+    }
     void Awake()
     {
         Instance = this;

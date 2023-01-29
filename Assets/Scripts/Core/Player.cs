@@ -57,6 +57,10 @@ public class Player : MonoBehaviour
     }
     public void OnEndTurn()
     {
+        foreach (var unit in AllUnits)
+        {
+            unit.OnUnselect();
+        }
         OnUnitUnselected();
     }
     public bool AllUnitsFinishTurn()

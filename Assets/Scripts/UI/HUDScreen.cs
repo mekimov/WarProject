@@ -31,10 +31,11 @@ public class HUDScreen : MonoBehaviour
 
     public void BeginFight()
     {
-        BattleController.Instance.SwitchActivePlayer();
-        if (BattleController.Instance.ActivePlayer.isFirstPlayer)
+        
+        if (!BattleController.Instance.ActivePlayer.isFirstPlayer)
         {
-            var turn = new Turn(BattleController.Instance.OnEndTurn);
+            BattleController.Instance.StopPreparing();
+            var turn = new Turn(OnEndTurn);
             foreach (var p in BattleController.Instance.AllPlayers)
             {
                 foreach (var c in p.AllUnits)
@@ -45,5 +46,14 @@ public class HUDScreen : MonoBehaviour
           
             turn.Begin();
         }
+        else
+        {
+            BattleController.Instance.SwitchActivePlayer();
+        }
+    }
+    private void OnEndTurn()
+    {
+        BattleController.Instance.OnEndTurn();
+        BattleController.Instance.SwitchActivePlayer();
     }
 }
