@@ -45,20 +45,7 @@ public class Unit : MonoBehaviour
         animator.SetTrigger("ReceiveDamage");
     }
 
-    public void OnTriggerEnter(Collider other)
-    {
-        var target = other.GetComponent<Unit>();
-        if (target != null && owner != target.owner)
-        {
-            attackTarget = target;//DoAttack(target);
-            pathmover.StopMoving();
-            // retreatPoint = -2f* (((transform.position + attackTarget.transform.position) / 2f) - transform.position);
-            var deltaVector = -1* (attackTarget.transform.position - transform.position).normalized;
-            var retreatDistance = 10.0f;
-            retreatPoint = transform.position + deltaVector * retreatDistance;
-        }
-
-    }
+    
 
     public void OnSelect()
     {

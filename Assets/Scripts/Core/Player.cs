@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public Color Color => _color;
 
     public Unit SelectedUnit => selectedUnit;
+    public bool isFirstPlayer = false;
 
     private void Start()
     {
@@ -20,15 +21,7 @@ public class Player : MonoBehaviour
             unit.owner = this; //this -- обращение к текущему экземпляру класса
         }
     }
-    public void BeginFight()
-    {
-        var turn = new Turn(BattleController.Instance.SwitchActivePlayer);
-        foreach (var c in units)
-        {
-            turn.AddUnit(c);
-        }
-        turn.Begin();
-    }
+  
     void OnUnitSelected(Unit unitTarget)
     {
         if (selectedUnit != null)

@@ -31,6 +31,19 @@ public class HUDScreen : MonoBehaviour
 
     public void BeginFight()
     {
-        BattleController.Instance.ActivePlayer.BeginFight();
+        BattleController.Instance.SwitchActivePlayer();
+        if (BattleController.Instance.ActivePlayer.isFirstPlayer)
+        {
+            var turn = new Turn(BattleController.Instance.OnEndTurn);
+            foreach (var p in BattleController.Instance.AllPlayers)
+            {
+                foreach (var c in p.AllUnits)
+                {
+                    turn.AddUnit(c);
+                }
+            }
+          
+            turn.Begin();
+        }
     }
 }

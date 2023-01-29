@@ -21,6 +21,14 @@ public class BattleController : MonoBehaviour
     }
     // Start is called before the first frame update
 
+    public void OnEndTurn()
+    {
+        red.OnEndTurn();
+        blue.OnEndTurn();
+        red.OnBeginTurn();
+        onTurnBegin?.Invoke(red);
+
+    }
     public void SwitchActivePlayer()
     {
         if (activePlayer == red)
