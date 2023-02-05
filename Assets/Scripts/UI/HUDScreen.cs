@@ -13,8 +13,8 @@ public class HUDScreen : MonoBehaviour
     private void Start()
     {
         _beginFightButton.onClick.AddListener(BeginFight);
-        BattleController.Instance.onTurnBegin += ShowTurnMessage;
-        foreach (var player in BattleController.Instance.AllPlayers)
+        Game.Instance.BattleController.onTurnBegin += ShowTurnMessage;
+        foreach (var player in Game.Instance.BattleController.AllPlayers)
         {
             foreach (var unit in player.AllUnits)
             {
@@ -32,11 +32,11 @@ public class HUDScreen : MonoBehaviour
     public void BeginFight()
     {
         
-        if (!BattleController.Instance.ActivePlayer.isFirstPlayer)
+        if (!Game.Instance.BattleController.ActivePlayer.isFirstPlayer)
         {
-            BattleController.Instance.StopPreparing();
+            Game.Instance.BattleController.StopPreparing();
             var turn = new Turn(OnEndTurn);
-            foreach (var p in BattleController.Instance.AllPlayers)
+            foreach (var p in Game.Instance.BattleController.AllPlayers)
             {
                 foreach (var c in p.AllUnits)
                 {
@@ -48,12 +48,12 @@ public class HUDScreen : MonoBehaviour
         }
         else
         {
-            BattleController.Instance.SwitchActivePlayer();
+            Game.Instance.BattleController.SwitchActivePlayer();
         }
     }
     private void OnEndTurn()
     {
-        BattleController.Instance.OnEndTurn();
-        BattleController.Instance.SwitchActivePlayer();
+        Game.Instance.BattleController.OnEndTurn();
+        Game.Instance.BattleController.SwitchActivePlayer();
     }
 }
