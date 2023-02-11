@@ -6,7 +6,9 @@ public class Game : MonoBehaviour
 {
     public static Game Instance { get; private set; }
     private BattleController _battleController;
-    public BattleController BattleController => _battleController; 
+    public BattleController BattleController => _battleController;
+    private CameraController _cameraController;
+    public CameraController CameraController => _cameraController;
     private Level _level;
     public Level Level => _level;
 
