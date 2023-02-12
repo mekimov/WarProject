@@ -7,10 +7,23 @@ using UnityEngine;
 public class PathCreator : MonoBehaviour
 {
     private List<Vector3> points = new List<Vector3>();
-    public Action<IEnumerable<Vector3>> OnNewPathCreated = delegate { }; 
+    public Action<IEnumerable<Vector3>> OnNewPathCreated = delegate { };
+    private bool stopped = false;
+
+    public void Stop()
+    {
+        stopped = true;
+    }
+
+    public void Continue()
+    {
+        stopped = false;
+    }
 
     private bool IsPointNearSelectedUnit(Vector3 point)
     {
+        if (stopped)
+            return false;
         var selectedUnit = Game.Instance.BattleController.ActivePlayer.SelectedUnit;
         if (selectedUnit == null)
             return false;
@@ -20,6 +33,8 @@ public class PathCreator : MonoBehaviour
     
     private bool SelectedUnitHasEnoughEnergy(List<Vector3> p)
     {
+        if (stopped)
+            return false;
         float wayLength = 0;
         for (int i = 0; i < p.Count - 1; i++)
         {
@@ -41,6 +56,8 @@ public class PathCreator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (stopped)
+            return;
         if (Input.GetButtonDown("Fire1"))
             points.Clear();
 

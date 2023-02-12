@@ -13,6 +13,12 @@ public class Level : MonoBehaviour
             Debug.LogError("ERROR! No level conditions set!");
         }
         Game.Instance.SetLevel(this);
+        Game.Instance.EventBus.onUnitKilled += CheckLevelConditionsOnUnitKilled;
+    }
+
+    public void CheckLevelConditionsOnUnitKilled(Unit unit)
+    {
+
     }
 
 }

@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
     [SerializeField] List<Unit> units; //список всех персонажей игрока
     public List<Unit> AllUnits => units;
     [SerializeField] Unit selectedUnit;
+    [SerializeField] PlayerType _playerType;
+    public PlayerType PlayerType => _playerType;
 
     [SerializeField] private Color _color;
     public Color Color => _color;
@@ -73,3 +75,5 @@ public class Player : MonoBehaviour
         return (true);
     }
 }
+
+public enum PlayerType { HumanPlayer = 1, BotPlayer = 2}

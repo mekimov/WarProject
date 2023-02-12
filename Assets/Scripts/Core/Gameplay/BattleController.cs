@@ -54,7 +54,7 @@ public class BattleController : MonoBehaviour
 
     private void Start()
     {
-        Game.Instance.SetBattleController(this);
+        //Game.Instance.SetBattleController(this);
         activePlayer = red;
         red.OnBeginTurn();
         onTurnBegin?.Invoke(activePlayer);

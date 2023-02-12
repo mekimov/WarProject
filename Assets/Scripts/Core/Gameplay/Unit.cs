@@ -15,9 +15,12 @@ public class Unit : MonoBehaviour
     public Unit attackTarget;
     public Vector3 retreatPoint = new Vector3();
     public Player owner;
+    
 
     [SerializeField] public Button _beginFightButton;
     [SerializeField] public NavMeshAgent navMeshAgent;
+    [SerializeField] private UnitType _unitType;
+    public UnitType UnitType => _unitType;
 
     public float MaxWayPerTurn()
     {
@@ -105,8 +108,11 @@ public class Unit : MonoBehaviour
             {
                 c.enabled = false;
             }
+            Game.Instance.EventBus.OnUnitKilled(this);
         }
         return;
     }
   
 }
+
+public enum UnitType { King = 1, Warrior = 2};

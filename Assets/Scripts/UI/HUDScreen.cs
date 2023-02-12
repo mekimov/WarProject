@@ -43,7 +43,8 @@ public class HUDScreen : MonoBehaviour
                     turn.AddUnit(c);
                 }
             }
-          
+
+            Game.Instance.PathCreator.Stop();
             turn.Begin();
         }
         else
@@ -55,5 +56,6 @@ public class HUDScreen : MonoBehaviour
     {
         Game.Instance.BattleController.OnEndTurn();
         Game.Instance.BattleController.SwitchActivePlayer();
+        Game.Instance.PathCreator.Continue();
     }
 }

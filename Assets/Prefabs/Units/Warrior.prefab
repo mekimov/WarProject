@@ -292,6 +292,7 @@ MonoBehaviour:
   owner: {fileID: 0}
   _beginFightButton: {fileID: 0}
   navMeshAgent: {fileID: 0}
+  _unitType: 2
 --- !u!135 &1012937642367684320
 SphereCollider:
   m_ObjectHideFlags: 0

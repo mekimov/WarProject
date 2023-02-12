@@ -5,9 +5,11 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [SerializeField] Camera camera;
+    private Vector3 cameraStartingPosition;
+
     void Start()
     {
-        
+        cameraStartingPosition = camera.transform.position;
     }
 
     private void Update()

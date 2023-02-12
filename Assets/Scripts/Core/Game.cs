@@ -5,12 +5,17 @@ using UnityEngine;
 public class Game : MonoBehaviour
 {
     public static Game Instance { get; private set; }
-    private BattleController _battleController;
+    [SerializeField] private BattleController _battleController;
     public BattleController BattleController => _battleController;
-    private CameraController _cameraController;
+    [SerializeField] private CameraController _cameraController;
     public CameraController CameraController => _cameraController;
+    [SerializeField] private PathCreator _pathCreator;
+    public PathCreator PathCreator => _pathCreator;
     private Level _level;
     public Level Level => _level;
+
+    private EventBus eventBus = new EventBus();
+    public EventBus EventBus => eventBus;
 
     public void Awake()
     {
