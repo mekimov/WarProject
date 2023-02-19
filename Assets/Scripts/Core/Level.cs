@@ -18,7 +18,52 @@ public class Level : MonoBehaviour
 
     public void CheckLevelConditionsOnUnitKilled(Unit unit)
     {
-
+        if (CheckWin(unit))
+        {
+            Game.Instance.EventBus.OnPlayerWin();
+        }
+        else if (CheckLoose(unit))
+        {
+            Game.Instance.EventBus.OnPlayerLoose();
+        }
     }
 
+    public bool CheckWin(Unit unit)
+    {
+        switch (levelConditions.VictoryCondition)
+        {
+            case VictoryCondition.KillTheKing:
+                if (unit.UnitType == UnitType.King)
+                    return true;
+                break;
+            case VictoryCondition.KillAllUnits:
+                throw new System.NotImplementedException();
+            default:
+                throw new System.ArgumentException();
+
+        }
+           
+
+        return false;
+    }
+    public bool CheckLoose(Unit unit)
+    {
+        switch (levelConditions.LooseCondition)
+        {
+            case LooseCondition.LooseAllUnits:
+                if (Game.Instance.BattleController.HumanPlayer.AllUnits.Count == 0)
+                    return true;
+                break;
+            case LooseCondition.LooseTheKing:
+                throw new System.NotImplementedException();
+            case LooseCondition.TurnsOut:
+                throw new System.NotImplementedException();
+            default:
+                throw new System.ArgumentException();
+
+        }
+
+        return false;
+
+    }
 }

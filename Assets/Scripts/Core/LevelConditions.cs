@@ -6,7 +6,10 @@ using UnityEngine;
 public class LevelConditions : ScriptableObject //конфиг
 {
     [SerializeField] VictoryCondition victoryCondition;
+    public VictoryCondition VictoryCondition => victoryCondition;
     [SerializeField] LooseCondition looseCondition;
+    public LooseCondition LooseCondition => looseCondition;
+
 }
 
 public enum VictoryCondition

@@ -9,11 +9,17 @@ public class HUDScreen : MonoBehaviour
     [SerializeField] private Button _beginFightButton;
     [SerializeField] private BeginTurnMessage _turnMessage;
     [SerializeField] private HealthBar healthBarPrefab;
+    [SerializeField] private GameObject winPanel;
+    [SerializeField] private GameObject loosePanel;
+
 
     private void Start()
     {
         _beginFightButton.onClick.AddListener(BeginFight);
         Game.Instance.BattleController.onTurnBegin += ShowTurnMessage;
+        Game.Instance.EventBus.onPlayerWin += ShowWinPanel;
+        Game.Instance.EventBus.onPlayerLoose += ShowLoosePanel;
+
         foreach (var player in Game.Instance.BattleController.AllPlayers)
         {
             foreach (var unit in player.AllUnits)
@@ -57,5 +63,19 @@ public class HUDScreen : MonoBehaviour
         Game.Instance.BattleController.OnEndTurn();
         Game.Instance.BattleController.SwitchActivePlayer();
         Game.Instance.PathCreator.Continue();
+    }
+
+    private void ShowWinPanel()
+    {
+        winPanel.SetActive(true);
+        _beginFightButton.gameObject.SetActive(false);
+    }
+
+    private void ShowLoosePanel()
+    {
+        loosePanel.SetActive(true);
+        _beginFightButton.gameObject.SetActive(false);
+
+
     }
 }

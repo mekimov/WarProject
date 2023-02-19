@@ -6,6 +6,7 @@ using UnityEngine;
 public class BattleController : MonoBehaviour
 {
     [SerializeField] Player red;
+    public Player HumanPlayer => red;
     [SerializeField] Player blue;
     private Player activePlayer;
     public Player ActivePlayer => activePlayer;

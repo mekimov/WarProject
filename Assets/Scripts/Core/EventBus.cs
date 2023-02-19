@@ -6,6 +6,8 @@ using UnityEngine;
 public class EventBus
 {
     public event Action<Unit> onUnitKilled;
+    public event Action onPlayerWin;
+    public event Action onPlayerLoose;
 
     public void OnUnitKilled(Unit unit)
     {
@@ -13,5 +15,15 @@ public class EventBus
         {
             onUnitKilled.Invoke(unit);
         }
+    }
+
+    public void OnPlayerWin()
+    {
+        onPlayerWin?.Invoke();
+    }
+
+    public void OnPlayerLoose()
+    {
+        onPlayerLoose?.Invoke();
     }
 }
