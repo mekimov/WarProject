@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using System;
+using UnityEngine.Serialization;
 
 public class PathMover : MonoBehaviour
 {
@@ -18,9 +19,15 @@ public class PathMover : MonoBehaviour
     public event MethodContainer onLineDeque;
 
     //public Action<Queue> actionRedrawLine;
-    
-    public bool waitForCommand; 
 
+    [SerializeField]
+    private UnitState _unitState = UnitState.Wait;
+    public UnitState UnitState => _unitState;
+
+    public void SetPhase(UnitState phase)
+    {
+        _unitState = phase;
+    }
     public void OnDrawGizmos()
     {
         foreach (var point in pathPoints)
@@ -79,7 +86,7 @@ public class PathMover : MonoBehaviour
     {
         if (pathPoints.Count == 0)
             return false;
-        if (waitForCommand)
+        if (_unitState != UnitState.Acting)
             return false;
         if (navmeshagent.hasPath == false || navmeshagent.remainingDistance < 1f)
             return true;
@@ -88,14 +95,21 @@ public class PathMover : MonoBehaviour
 
     public bool MoveFinished()
     {
-        return (pathPoints.Count == 0 && !waitForCommand);
+        return (pathPoints.Count == 0 && _unitState != UnitState.Prepare);
     }
 
     public void StopMoving()
     {
         pathPoints.Clear();
-        waitForCommand = false;
+        _unitState = UnitState.Wait;
         onLineDeque?.Invoke(pathPoints);
         FindObjectOfType<PathCreator>().LineUpdate(pathPoints, lineRenderer);
     }
+}
+
+public enum UnitState
+{
+    Prepare = 1,
+    Acting = 2,
+    Wait = 3,
 }

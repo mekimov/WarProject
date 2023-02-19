@@ -63,7 +63,7 @@ public class Unit : MonoBehaviour
 
     public void OnBeginTurn()
     {
-        pathmover.waitForCommand = true;
+        pathmover.SetPhase(UnitState.Prepare);
         attackTarget = null;
     }
 

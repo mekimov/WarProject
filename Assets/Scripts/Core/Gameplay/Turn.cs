@@ -56,7 +56,7 @@ public class Turn
     private IEnumerator UnitTurnRoutine(Unit unit)
     {
         yield return null;
-        unit.pathmover.waitForCommand = false;
+        unit.pathmover.SetPhase(UnitState.Acting);
         while (!unit.MoveFinished())
         {
             yield return null; //Ждем следующего апдейта чтобы продолжить исполнение кода
