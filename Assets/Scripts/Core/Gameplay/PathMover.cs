@@ -53,7 +53,7 @@ public class PathMover : MonoBehaviour
         pathPoints.Clear();
     }
 
-    private void SetPoints(IEnumerable<Vector3> points)
+    public void SetPoints(IEnumerable<Vector3> points)
     {
         if (pathPoints.Count > 0 && points.Count() == 0)
             return;

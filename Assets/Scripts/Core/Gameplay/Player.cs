@@ -2,19 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public abstract class Player : MonoBehaviour
 {
     [SerializeField] List<Unit> units; //список всех персонажей игрока
     public List<Unit> AllUnits => units;
     [SerializeField] Unit selectedUnit;
-    [SerializeField] PlayerType _playerType;
-    public PlayerType PlayerType => _playerType;
 
     [SerializeField] private Color _color;
     public Color Color => _color;
 
     public Unit SelectedUnit => selectedUnit;
     public bool isFirstPlayer = false;
+    private bool isActivePlayer = false;
 
     private void Start()
     {
@@ -23,7 +22,20 @@ public class Player : MonoBehaviour
             unit.owner = this; //this -- обращение к текущему экземпляру класса
         }
     }
-  
+
+    private void Update()
+    {
+        if (isActivePlayer)
+            ProcessInput();
+    }
+
+    protected abstract void ProcessInput();
+    protected virtual void ProcessBeginTurn() { }
+    protected virtual void ProcessEndTurn() { }
+
+
+
+
     void OnUnitSelected(Unit unitTarget)
     {
         if (selectedUnit != null)
@@ -56,6 +68,8 @@ public class Player : MonoBehaviour
         {
             c.OnBeginTurn();
         }
+        isActivePlayer = true;
+        ProcessBeginTurn();
     }
     public void OnEndTurn()
     {
@@ -64,6 +78,9 @@ public class Player : MonoBehaviour
             unit.OnUnselect();
         }
         OnUnitUnselected();
+        isActivePlayer = false;
+        ProcessEndTurn();
+
     }
     public bool AllUnitsFinishTurn()
     {
@@ -76,4 +93,3 @@ public class Player : MonoBehaviour
     }
 }
 
-public enum PlayerType { HumanPlayer = 1, BotPlayer = 2}

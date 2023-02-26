@@ -54,14 +54,14 @@ public class PathCreator : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public void ManualUpdate(bool fireDown, bool fire, bool fireUp)
     {
         if (stopped)
             return;
-        if (Input.GetButtonDown("Fire1"))
+        if (fireDown)
             points.Clear();
 
-        if (Input.GetButton("Fire1"))
+        if (fire)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); 
             RaycastHit hitInfo;
@@ -81,7 +81,7 @@ public class PathCreator : MonoBehaviour
             }
 
         }
-        else if (Input.GetButtonUp("Fire1"))
+        else if (fireUp)
             OnNewPathCreated(points);
     }
 
