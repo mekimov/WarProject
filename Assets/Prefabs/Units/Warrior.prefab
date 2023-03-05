@@ -44,7 +44,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 2, z: 2}
+  m_Size: {x: 8, y: 8, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2004774749792991020
 MonoBehaviour:
@@ -171,7 +171,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 2, z: 2}
+  m_Size: {x: 2, y: 8, z: 8}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4171792931566551958
 MonoBehaviour:
@@ -247,7 +247,7 @@ MonoBehaviour:
   navmeshagent: {fileID: 1250515802992860167}
   animator: {fileID: 1250515803686909169}
   lineRenderer: {fileID: 1100523676237855297}
-  waitForCommand: 0
+  _unitState: 3
 --- !u!195 &1250515802992860167
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -498,7 +498,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 2, z: 2}
+  m_Size: {x: 2, y: 8, z: 8}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &5714723279682609648
 MonoBehaviour:
@@ -558,7 +558,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 2, z: 2}
+  m_Size: {x: 8, y: 8, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1001491227849238493
 MonoBehaviour:

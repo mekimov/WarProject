@@ -59,12 +59,13 @@ public class PathMover : MonoBehaviour
             return;
         lineRenderer.positionCount = points.Count();
         lineRenderer.SetPositions(points.ToArray());
-        pathPoints = new Queue<Vector3>(points); 
+        pathPoints = new Queue<Vector3>(points);
+
         //if (pathPoints.Count > 0)
-            //waitForCommand = false;
+        //waitForCommand = false;
     }
 
-       // Update is called once per frame
+    // Update is called once per frame
     public void Update()
     {
         UpdatePathing();
@@ -76,7 +77,9 @@ public class PathMover : MonoBehaviour
     {
         if (ShouldSetDestination())
         {
-            navmeshagent.SetDestination(pathPoints.Dequeue());
+            Vector3 nextPoint = pathPoints.Dequeue(); //достаем последний элемент из очереди
+           
+            navmeshagent.SetDestination(nextPoint);
             onLineDeque?.Invoke(pathPoints);
             FindObjectOfType<PathCreator>().LineUpdate(pathPoints, lineRenderer);
         }
@@ -84,6 +87,7 @@ public class PathMover : MonoBehaviour
 
     private bool ShouldSetDestination()
     {
+
         if (pathPoints.Count == 0)
             return false;
         if (_unitState != UnitState.Acting)
@@ -91,6 +95,7 @@ public class PathMover : MonoBehaviour
         if (navmeshagent.hasPath == false || navmeshagent.remainingDistance < 1f)
             return true;
         return false;
+
     }
 
     public bool MoveFinished()
