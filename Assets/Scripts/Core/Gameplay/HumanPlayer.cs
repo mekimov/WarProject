@@ -8,4 +8,10 @@ public class HumanPlayer : Player
     {
         Game.Instance.PathCreator.ManualUpdate(Input.GetButtonDown("Fire1"), Input.GetButton("Fire1"), Input.GetButtonUp("Fire1"));
     }
+
+    public override void OnBeginTurn()
+    {
+        base.OnBeginTurn();
+        Game.Instance.EventBus.OnHumanPlayerTurnBegin();
+    }
 }

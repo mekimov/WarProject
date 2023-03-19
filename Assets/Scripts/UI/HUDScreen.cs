@@ -15,10 +15,12 @@ public class HUDScreen : MonoBehaviour
 
     private void Start()
     {
-        _beginFightButton.onClick.AddListener(BeginFight);
+        _beginFightButton.onClick.AddListener(Game.Instance.BeginFight);
+        _beginFightButton.onClick.AddListener(LockBeginFightButton);
         Game.Instance.BattleController.onTurnBegin += ShowTurnMessage;
         Game.Instance.EventBus.onPlayerWin += ShowWinPanel;
         Game.Instance.EventBus.onPlayerLoose += ShowLoosePanel;
+        Game.Instance.EventBus.onHumanPlayerTurnBegin += UnlockBeginFightButton;
 
         foreach (var player in Game.Instance.BattleController.AllPlayers)
         {
@@ -35,35 +37,8 @@ public class HUDScreen : MonoBehaviour
         _turnMessage.ShowBeginTurnMessage(player);
     }
 
-    public void BeginFight()
-    {
-        
-        if (!Game.Instance.BattleController.ActivePlayer.isFirstPlayer)
-        {
-            Game.Instance.BattleController.StopPreparing();
-            var turn = new Turn(OnEndTurn);
-            foreach (var p in Game.Instance.BattleController.AllPlayers)
-            {
-                foreach (var c in p.AllUnits)
-                {
-                    turn.AddUnit(c);
-                }
-            }
-
-            Game.Instance.PathCreator.Stop();
-            turn.Begin();
-        }
-        else
-        {
-            Game.Instance.BattleController.SwitchActivePlayer();
-        }
-    }
-    private void OnEndTurn()
-    {
-        Game.Instance.BattleController.OnEndTurn();
-        Game.Instance.BattleController.SwitchActivePlayer();
-        Game.Instance.PathCreator.Continue();
-    }
+    
+    
 
     private void ShowWinPanel()
     {
@@ -77,5 +52,15 @@ public class HUDScreen : MonoBehaviour
         _beginFightButton.gameObject.SetActive(false);
 
 
+    }
+
+    private void LockBeginFightButton()
+    {
+        _beginFightButton.interactable = false;
+    }
+
+    private void UnlockBeginFightButton()
+    {
+        _beginFightButton.interactable = true;
     }
 }

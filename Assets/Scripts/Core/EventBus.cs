@@ -8,6 +8,7 @@ public class EventBus
     public event Action<Unit> onUnitKilled;
     public event Action onPlayerWin;
     public event Action onPlayerLoose;
+    public event Action onHumanPlayerTurnBegin;
 
     public void OnUnitKilled(Unit unit)
     {
@@ -25,5 +26,10 @@ public class EventBus
     public void OnPlayerLoose()
     {
         onPlayerLoose?.Invoke();
+    }
+
+    public void OnHumanPlayerTurnBegin()
+    {
+        onHumanPlayerTurnBegin?.Invoke();
     }
 }

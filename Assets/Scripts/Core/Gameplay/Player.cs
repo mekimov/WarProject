@@ -61,7 +61,7 @@ public abstract class Player : MonoBehaviour
             
         }
     }
-    public void OnBeginTurn()
+    public virtual void OnBeginTurn()
     {
         OnUnitSelected(units[0]);
         foreach (var c in units)

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Game : MonoBehaviour
 {
+
     public static Game Instance { get; private set; }
     [SerializeField] private BattleController _battleController;
     public BattleController BattleController => _battleController;
@@ -39,5 +40,36 @@ public class Game : MonoBehaviour
     public void SetBattleController(BattleController b)
     {
         _battleController = b;
+    }
+
+    public void BeginFight()
+    {
+
+        if (!Game.Instance.BattleController.ActivePlayer.isFirstPlayer)
+        {
+            Game.Instance.BattleController.StopPreparing();
+            var turn = new Turn(OnEndTurn);
+            foreach (var p in Game.Instance.BattleController.AllPlayers)
+            {
+                foreach (var c in p.AllUnits)
+                {
+                    turn.AddUnit(c);
+                }
+            }
+
+            Game.Instance.PathCreator.Stop();
+            turn.Begin();
+        }
+        else
+        {
+            Game.Instance.BattleController.SwitchActivePlayer();
+        }
+    }
+
+    private void OnEndTurn()
+    {
+        Game.Instance.BattleController.OnEndTurn();
+        Game.Instance.BattleController.SwitchActivePlayer();
+        Game.Instance.PathCreator.Continue();
     }
 }

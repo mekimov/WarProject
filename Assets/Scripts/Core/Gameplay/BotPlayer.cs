@@ -19,6 +19,7 @@ public class BotPlayer : Player
 
     private IEnumerator ProcessPatrol()
     {
+        //заблокировать кнопку в бой (button.Interactable)
         yield return new WaitForSeconds(2);
         foreach (var patrol in unitPatrols)
         {
@@ -36,6 +37,8 @@ public class BotPlayer : Player
             yield return new WaitForSeconds(0.5f);
         }
         pointIndex++;
+        //Разблокировать кнопку в бой
+        Game.Instance.BeginFight();
     }
     private Unit GetClosestEnemy(Unit owner)
     {

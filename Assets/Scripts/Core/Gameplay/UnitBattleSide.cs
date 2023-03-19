@@ -18,6 +18,7 @@ public class UnitBattleSide : MonoBehaviour
         {
             _unit.attackTarget = target.Unit;//DoAttack(target);
             _unit.pathmover.StopMoving();
+            target.Unit.pathmover.StopMoving();
             // retreatPoint = -2f* (((transform.position + attackTarget.transform.position) / 2f) - transform.position);
             var deltaVector = -1 * (_unit.attackTarget.transform.position - transform.position).normalized;
             var retreatDistance = 10.0f;

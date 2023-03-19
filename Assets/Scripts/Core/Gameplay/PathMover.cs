@@ -106,6 +106,7 @@ public class PathMover : MonoBehaviour
     public void StopMoving()
     {
         pathPoints.Clear();
+        navmeshagent.SetDestination(transform.position);
         _unitState = UnitState.Wait;
         onLineDeque?.Invoke(pathPoints);
         FindObjectOfType<PathCreator>().LineUpdate(pathPoints, lineRenderer);
